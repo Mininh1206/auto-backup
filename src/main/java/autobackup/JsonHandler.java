@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.auto.backup;
+package autobackup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -12,12 +12,13 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JsonHandler {
 
-    private static final String RUTA_JSON = "dispositivos.json";
+    private static final String RUTA_JSON = AutoBackup.RUTA_PROYECTO + "dispositivos.json";
     private final Gson gson;
 
     public JsonHandler() {
@@ -28,6 +29,7 @@ public class JsonHandler {
         try (Reader reader = new FileReader(RUTA_JSON)) {
             Type tipoLista = new TypeToken<List<Dispositivo>>() {
             }.getType();
+
             List<Dispositivo> dispositivos = gson.fromJson(reader, tipoLista);
 
             // Reparar datos faltantes
@@ -43,20 +45,35 @@ public class JsonHandler {
     }
 
     public void guardarDispositivos(List<Dispositivo> dispositivos) {
-        dispositivos.forEach(d -> {
-            if (d.getUltimaCopia() == null) {
-                d.setUltimaCopia("Sin copia"); // Inicializa con un valor por defecto
+        try {
+            dispositivos.forEach(d -> {
+                if (d.getUltimaCopia() == null) {
+                    d.setUltimaCopia("Sin copia"); // Inicializa con un valor por defecto
+                }
+            });
+
+            // Si no existe las carpetas, las creamos
+            if (!Paths.get(RUTA_JSON).getParent().toFile().exists()) {
+                if (!Paths.get(RUTA_JSON).getParent().toFile().mkdirs()) {
+
+                    throw new Exception("Error al crear las carpetas");
+
+                }
             }
-        });
-        try (Writer writer = new FileWriter(RUTA_JSON)) {
-            gson.toJson(dispositivos, writer);
-        } catch (IOException e) {
+
+            try (Writer writer = new FileWriter(RUTA_JSON)) {
+                gson.toJson(dispositivos, writer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void agregarDispositivo(String nombre) {
         List<Dispositivo> dispositivos = leerDispositivos();
+
         if (dispositivos.stream().noneMatch(d -> d.getNombre().equals(nombre))) {
             dispositivos.add(new Dispositivo(nombre, null)); // Incluye `ultimaCopia: null`
             guardarDispositivos(dispositivos);

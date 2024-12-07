@@ -29,7 +29,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.mycompany.auto.backup.AutoBackup</mainClass>
+                  <mainClass>autobackup.AutoBackup</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -40,7 +40,7 @@
   </build>
   <properties>
     <maven.compiler.release>21</maven.compiler.release>
-    <exec.mainClass>com.mycompany.auto.backup.AutoBackup</exec.mainClass>
+    <exec.mainClass>autobackup.AutoBackup</exec.mainClass>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

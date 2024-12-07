@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.auto.backup;
+package autobackup;
 
 import java.io.File;
 import java.io.IOException;
@@ -86,6 +86,7 @@ public class BackupDaemon extends Thread {
 
         // Usamos AtomicReference para que pueda ser modificada dentro del visitor
         AtomicReference<LocalDateTime> ultimaCopia = new AtomicReference<>(null);
+        
         try {
             if (dispositivo != null && dispositivo.getUltimaCopia() != null) {
                 ultimaCopia.set(LocalDateTime.parse(dispositivo.getUltimaCopia()));

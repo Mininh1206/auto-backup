@@ -8,7 +8,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
-        <exec.mainClass>com.mycompany.auto.backup.AutoBackup</exec.mainClass>
+        <exec.mainClass>autobackup.AutoBackup</exec.mainClass>
     </properties>
     <dependencies>
         <dependency>
@@ -45,7 +45,7 @@
                             <transformers>
                                 <!-- Incluye el manifiesto con la clase principal -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.mycompany.auto.backup.AutoBackup</mainClass>
+                                    <mainClass>autobackup.AutoBackup</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
